@@ -1,27 +1,36 @@
 "use client";
-import { BookOpen, Code2 } from 'lucide-react';
+import { BookOpen, Code2, Network } from 'lucide-react';
 import CourseCard from '@/components/ui/CourseCard';
 import { useEffect, useState } from 'react';
 import { courseData } from '@/data/chapters';
+import { basotCourseData } from '@/data/basotChapters';
 
 export default function Dashboard() {
-  const [totalProgress, setTotalProgress] = useState(0);
+  const [mlProgress, setMlProgress] = useState(0);
+  const [basotProgress, setBasotProgress] = useState(0);
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
     setIsMounted(true);
-    let totalCompletedSlides = 0;
-    let totalSlidesAvailable = 0;
-
+    
+    // Hitung Progress ML
+    let mlCompleted = 0, mlTotal = 0;
     courseData.forEach(chapter => {
-      totalSlidesAvailable += chapter.slides.length;
-      const maxPageReached = parseInt(localStorage.getItem(`ml_progress_${chapter.id}`) || '-1');
-      totalCompletedSlides += (maxPageReached + 1);
+      mlTotal += chapter.slides.length;
+      const maxPage = parseInt(localStorage.getItem(`ml_progress_${chapter.id}`) || '-1');
+      mlCompleted += (maxPage + 1);
     });
+    if (mlTotal > 0) setMlProgress(Math.round((mlCompleted / mlTotal) * 100));
 
-    if (totalSlidesAvailable > 0) {
-      setTotalProgress(Math.round((totalCompletedSlides / totalSlidesAvailable) * 100));
-    }
+    // Hitung Progress Basot
+    let basotCompleted = 0, basotTotal = 0;
+    basotCourseData.forEach(chapter => {
+      basotTotal += chapter.slides.length;
+      const maxPage = parseInt(localStorage.getItem(`basot_progress_${chapter.id}`) || '-1');
+      basotCompleted += (maxPage + 1);
+    });
+    if (basotTotal > 0) setBasotProgress(Math.round((basotCompleted / basotTotal) * 100));
+
   }, []);
 
   if (!isMounted) return null;
@@ -36,10 +45,17 @@ export default function Dashboard() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
         <CourseCard 
           href="/ml" 
-          icon={<BookOpen size={24} />} 
+          icon={<Network size={24} />} 
           title="Machine Learning" 
           description="Konsep dasar, eksplorasi data, dan algoritma clustering (K-Means & DBSCAN) untuk persiapan UTS." 
-          progress={totalProgress} // Persentase Gabungan Real-time
+          progress={mlProgress} 
+        />
+        <CourseCard 
+          href="/basot" 
+          icon={<BookOpen size={24} />} 
+          title="Bahasa & Automata" 
+          description="Logika State Machine, Regex, Pumping Lemma, dan Grammar Parser." 
+          progress={basotProgress} 
         />
         <CourseCard 
           href="#" 
