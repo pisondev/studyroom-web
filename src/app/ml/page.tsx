@@ -1,6 +1,6 @@
 "use client";
 import Link from 'next/link';
-import { PlayCircle, Database, Network, ArrowLeft, Play, ShieldAlert } from 'lucide-react';
+import { PlayCircle, Database, Network, ArrowLeft, Play, ShieldAlert, Gamepad2, ArrowRight } from 'lucide-react';
 import CourseCard from '@/components/ui/CourseCard';
 import { useEffect, useState } from 'react';
 import { courseData } from '@/data/chapters';
@@ -15,11 +15,9 @@ export default function MachineLearningCourse() {
     const savedChapter = localStorage.getItem('ml_last_chapter');
     if (savedChapter) setLastChapter(savedChapter);
 
-    // Hitung progress masing-masing bab
     const newProgress: Record<string, number> = {};
     courseData.forEach(chapter => {
       const maxPageReached = parseInt(localStorage.getItem(`ml_progress_${chapter.id}`) || '-1');
-      // Jika belum pernah buka, -1. Jika buka slide 1 (index 0), berarti 1 slide dibaca.
       const slidesCompleted = maxPageReached + 1; 
       const percentage = Math.round((slidesCompleted / chapter.slides.length) * 100);
       newProgress[chapter.id] = percentage;
@@ -34,7 +32,7 @@ export default function MachineLearningCourse() {
     { id: "4", title: "Clustering Part 2", icon: <ShieldAlert size={20}/>, desc: "Kelemahan K-Means dan algoritma Density-Based (DBSCAN).", href: "/ml/learn/4" },
   ];
 
-  if (!isMounted) return null; // Mencegah kedipan UI saat load localstorage
+  if (!isMounted) return null;
 
   return (
     <main className="min-h-screen bg-[#0b1120] p-6 md:p-16">
@@ -50,7 +48,6 @@ export default function MachineLearningCourse() {
               <p className="text-slate-400 text-lg">Pahami logika mesin sebelum UTS dimulai.</p>
             </div>
             
-            {/* Tombol Lanjutkan Belajar (Pintar) */}
             {lastChapter && (
               <Link href={`/ml/learn/${lastChapter}`} className="inline-flex items-center gap-2 bg-indigo-600 hover:bg-indigo-500 text-white px-5 py-3 rounded-xl font-bold transition-all shadow-lg shadow-indigo-500/20 active:scale-95 whitespace-nowrap">
                 <Play size={18} /> Lanjutkan Bab {lastChapter}
@@ -59,6 +56,28 @@ export default function MachineLearningCourse() {
           </div>
         </div>
 
+        {/* --- TAMBAHAN KOTAK PLAYGROUND --- */}
+        <div className="mb-8">
+           <Link href="/ml/playground" className="block p-6 bg-gradient-to-br from-indigo-900/50 to-slate-900/50 border border-indigo-500/30 rounded-2xl hover:border-indigo-500/60 hover:shadow-[0_0_30px_-5px_rgba(99,102,241,0.3)] transition-all group relative overflow-hidden">
+             <div className="absolute top-0 right-0 p-8 opacity-10 group-hover:opacity-20 transition-opacity transform group-hover:scale-110">
+               <Gamepad2 size={100} className="text-indigo-400" />
+             </div>
+             <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+                <div>
+                   <div className="flex items-center gap-2 mb-2">
+                     <span className="bg-indigo-500 text-white text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded">Zona Bebas</span>
+                   </div>
+                   <h2 className="text-2xl font-bold text-slate-100 mb-1">Playground Simulasi Ujian</h2>
+                   <p className="text-slate-400">Pilih algoritma, atur koordinat sesuka hati, dan cocokkan hasil hitungan corat-coretmu!</p>
+                </div>
+                <div className="shrink-0 flex items-center justify-center w-12 h-12 bg-indigo-600/20 text-indigo-400 rounded-full group-hover:bg-indigo-500 group-hover:text-white transition-colors">
+                  <ArrowRight size={24} />
+                </div>
+             </div>
+           </Link>
+        </div>
+
+        <h3 className="text-xl font-bold text-slate-200 mb-4 flex items-center gap-2"><div className="w-1.5 h-6 bg-indigo-500 rounded-full"></div> Materi Pembelajaran</h3>
         <div className="flex flex-col gap-4">
           {chapters.map((cap) => (
             <CourseCard 
@@ -68,7 +87,7 @@ export default function MachineLearningCourse() {
               icon={cap.icon}
               title={`Bab ${cap.id}: ${cap.title}`}
               description={cap.desc}
-              progress={progressData[cap.id] || 0} // Injeksi progress ke card
+              progress={progressData[cap.id] || 0}
             />
           ))}
         </div>
