@@ -8,8 +8,10 @@ export interface Slide {
   content: string;
   iconName: string;
   isCanvas?: boolean;
-  // --- PERBAIKAN: Tambahkan tipe canvas kripto di sini ---
-  canvasType?: "datatypes" | "kmeans" | "hierarchical" | "dbscan" | "caesar" | "affine" | "playfair" | "vigenere";
+  canvasType?: 
+    | "datatypes" | "kmeans" | "hierarchical" | "dbscan" 
+    | "caesar" | "affine" | "vigenere" | "playfair" | "hill" | "vernam" | "rowtransposition" | "railfence" // Bab 2 Klasik
+    | "streamvsblock" | "avalanche" | "feistel"; // Bab 3 Modern
 }
 
 export interface Chapter {
