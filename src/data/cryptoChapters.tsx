@@ -132,5 +132,37 @@ export const cryptoCourseData: Chapter[] = [
         iconName: "BookCheck" 
       }
     ]
+  },
+  {
+    id: "4",
+    title: "Data Encryption Standard (DES)",
+    slides: [
+      { id: 1, type: "concept", title: "Pengenalan DES", content: "Diperkenalkan tahun 1977 berakar dari sandi IBM Lucifer. DES adalah block cipher simetris yang memproses data dalam blok 64-bit menggunakan kunci 56-bit.\n\nKarena diadaptasi dari struktur Feistel, proses dekripsi DES dilakukan dengan algoritma langkah yang sama persis dengan enkripsinya.", iconName: "ShieldCheck" },
+      { id: 2, type: "concept", title: "Arsitektur 3 Fase DES", content: "1. Initial Permutation (IP): Blok 64-bit diacak posisinya di awal.\n2. 16 Rounds: Pemrosesan gaya Feistel (Substitusi & Permutasi). Di akhir ronde 16, L dan R ditukar (Swap).\n3. Inverse IP: Hasil akhir dipermutasi balik menggunakan tabel invers IP.", iconName: "Layers" },
+      { id: 3, type: "interactive", title: "Jantung Enkripsi: Fungsi F & S-Box", content: "Di dalam 16 ronde, Fungsi F bertugas mengubah input 32-bit (R) menjadi output 32-bit. Prosesnya:\n1. Ekspansi (E): R 32-bit diekspansi jadi 48-bit.\n2. XOR: Di-XOR dengan Sub-Key 48-bit.\n3. S-Box: Dipecah jadi 8 blok (6-bit). Tiap blok diubah jadi 4-bit via tabel S-Box.\n4. Permutasi (P): 32-bit gabungan diacak ulang posisinya.", iconName: "Activity", isCanvas: true, canvasType: "dessbox" },
+      { id: 4, type: "concept", title: "Key Scheduling DES", content: "Tugasnya memecah 1 Kunci Utama (64-bit) menjadi 16 Sub-Key (48-bit).\n\n- Bit parity diabaikan (kunci menyusut jadi 56-bit).\n- Dipecah jadi blok Kiri (C₀) & Kanan (D₀) 28-bit.\n- Tiap ronde, C & D dikenai Left Circular Shift (1 atau 2 bit).\n- Dikompresi lagi via matriks PC-2 menjadi Sub-Key 48-bit.", iconName: "KeyRound" },
+      { id: 5, type: "concept", title: "Kelemahan DES & Lahirnya 3DES", content: "Kunci DES 'hanya' 56-bit, membuatnya rentan terhadap Brute-Force Attack modern (EFF memecahkannya < 1 hari di 1999).\n\nSolusinya adalah 3DES (Triple DES): Mengeksekusi algoritma DES 3 kali berurutan (Encrypt-Decrypt-Encrypt). \nC = E(K₃, D(K₂, E(K₁, P)))\nMeski lebih aman (kunci 112/168-bit), 3DES sangat lambat dan blok datanya tetap kecil (64-bit).", iconName: "AlertTriangle" }
+    ]
+  },
+  {
+    id: "5",
+    title: "Matematika AES (Finite Fields)",
+    slides: [
+      { id: 1, type: "concept", title: "Keterbagian & Aritmetika Modular", content: "Aritmetika Modular: Operasi a mod n menghasilkan 'sisa' pembagian. \nContoh: 15 mod 7 = 1.\n\nDua angka disebut 'Kongruen' (a ≡ b mod n) jika mereka punya sisa pembagian yang sama. \n\nSifat operasi modulus bisa didistribusikan pada penjumlahan & perkalian.", iconName: "Combine" },
+      { id: 2, type: "interactive", title: "Algoritma Euclid (Mencari GCD)", content: "Faktor Persekutuan Terbesar (GCD) penting untuk mencari 'Relatif Prima'. Dua angka disebut relatif prima jika GCD-nya = 1.\n\nAlgoritma Euclid mencarinya dengan rekursi: gcd(a,b) = gcd(b, a mod b) hingga sisanya 0. Mari kita coba kalkulatornya!", iconName: "Activity", isCanvas: true, canvasType: "euclidean" },
+      { id: 3, type: "concept", title: "Struktur Aljabar Dasar", content: "Himpunan angka diklasifikasikan berdasar kemampuannya:\n1. Group: Punya 1 operasi (Tambah), ada 0, dan ada nilai minus (Invers).\n2. Ring: Punya 2 operasi (Tambah & Kali).\n3. Field: 'Bentuk Sempurna'. Bisa Tambah, Kurang, Kali, dan Bagi. Syaratnya: Setiap elemen (kecuali 0) WAJIB punya Invers Perkalian.", iconName: "Network" },
+      { id: 4, type: "concept", title: "Galois Field: GF(p)", content: "Finite Field beroperasi di himpunan terbatas Zₚ = {0, ..., p-1}.\n\nAgar himpunan ini menjadi Field (semua angka punya invers bagi), angka p WAJIB berupa Bilangan Prima.\nJika p bukan prima, akan ada angka yang tidak relatif prima dengan p, sehingga tidak punya invers perkalian.", iconName: "ShieldCheck" },
+      { id: 5, type: "interactive", title: "Masalah AES & GF(2⁸)", content: "AES beroperasi pada blok 8-bit (total 256 nilai). Tapi 256 BUKAN bilangan prima! Jika pakai Modulo biasa, kita tidak akan punya Invers Perkalian.\n\nSolusinya: GF(2⁸) Aritmetika Polinomial. Bit diperlakukan sebagai polinomial, dan modusnya diganti dengan 'Irreducible Polynomial' x⁸+x⁴+x³+x+1 (100011011).", iconName: "Activity", isCanvas: true, canvasType: "gf28math" }
+    ]
+  },
+  {
+    id: "6",
+    title: "Advanced Encryption Standard (AES)",
+    slides: [
+      { id: 1, type: "concept", title: "Pengenalan AES (Rijndael)", content: "AES menggantikan 3DES karena butuh blok data yang lebih besar (128-bit) dan lebih efisien di CPU modern. \n\nAES memproses data 128-bit sekaligus (bukan Feistel!), menggunakan matriks State 4×4 byte. Mendukung panjang kunci 128-bit (10 ronde), 192-bit (12 ronde), atau 256-bit (14 ronde).", iconName: "ShieldCheck" },
+      { id: 2, type: "interactive", title: "Transformasi State: SubBytes & ShiftRows", content: "Di setiap ronde, matriks 4x4 dikenai transformasi bertahap.\n\n1. SubBytes: Setiap byte diganti via S-Box (dibangun dari invers perkalian GF(2⁸) untuk memberikan Confusion maksimal).\n2. ShiftRows: Baris matriks digeser melingkar (Baris 2 geser 1, Baris 3 geser 2, Baris 4 geser 3).", iconName: "Activity", isCanvas: true, canvasType: "aesstate" },
+      { id: 3, type: "concept", title: "Transformasi Lanjutan: MixColumns & AddRoundKey", content: "3. MixColumns: Setiap kolom dikalikan dengan matriks polinomial khusus di GF(2⁸). Ini memberikan fungsi Diffusion yang ekstrim.\n\n4. AddRoundKey: Matriks State di-XOR langsung dengan Sub-Key 128-bit. (Satu-satunya tahap yang melibatkan Kunci rahasia).", iconName: "Layers" },
+      { id: 4, type: "concept", title: "Key Expansion & Dekripsi AES", content: "Kunci 128-bit diekspansi jadi 44 word (176 byte) menggunakan fungsi g (RotWord, SubWord, & XOR Konstanta Rcon).\n\nKarena AES bukan Feistel, proses Dekripsinya berbeda. Ia menggunakan invers dari seluruh operasi (Inverse S-Box, Inverse ShiftRows, Inverse MixColumns) dan mengumpankan sub-key secara terbalik.", iconName: "BookCheck" }
+    ]
   }
 ];

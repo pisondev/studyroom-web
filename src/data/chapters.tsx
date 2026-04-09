@@ -11,7 +11,8 @@ export interface Slide {
   canvasType?: 
     | "datatypes" | "kmeans" | "hierarchical" | "dbscan" 
     | "caesar" | "affine" | "vigenere" | "playfair" | "hill" | "vernam" | "rowtransposition" | "railfence" // Bab 2 Klasik
-    | "streamvsblock" | "avalanche" | "feistel"; // Bab 3 Modern
+    | "streamvsblock" | "avalanche" | "feistel" // Bab 3 Simetris Dasar
+    | "dessbox" | "euclidean" | "gf28math" | "aesstate"; // Bab 4-6 Lanjutan
 }
 
 export interface Chapter {
