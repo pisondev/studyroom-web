@@ -9,7 +9,7 @@ export interface Slide {
   iconName: string;
   isCanvas?: boolean;
   // --- PERBAIKAN: Tambahkan tipe canvas kripto di sini ---
-  canvasType?: "datatypes" | "kmeans" | "hierarchical" | "dbscan" | "caesar" | "affine" | "vigenere";
+  canvasType?: "datatypes" | "kmeans" | "hierarchical" | "dbscan" | "caesar" | "affine" | "playfair" | "vigenere";
 }
 
 export interface Chapter {

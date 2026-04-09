@@ -11,6 +11,7 @@ import { getIcon } from "@/data/chapters";
 // Import Canvas Kripto yang sudah kita buat
 import CaesarCanvas from "@/components/crypto/CaesarCanvas";
 import VigenereCanvas from "@/components/crypto/VigenereCanvas";
+import PlayfairCanvas from "@/components/crypto/PlayfairCanvas";
 
 const slideVariants = {
   enter: (direction: number) => ({ x: direction > 0 ? 100 : -100, opacity: 0 }),
@@ -151,6 +152,7 @@ export default function CryptoLearn() {
               <div className={isCanvasMode ? "flex-1 h-full" : "mt-8"}>
                 {currentSlide.isCanvas && currentSlide.canvasType === "caesar" && <CaesarCanvas />}
                 {currentSlide.isCanvas && currentSlide.canvasType === "vigenere" && <VigenereCanvas />}
+                {currentSlide.isCanvas && currentSlide.canvasType === "playfair" && <PlayfairCanvas />}
               </div>
             </div>
           </motion.div>
