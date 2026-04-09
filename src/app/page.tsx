@@ -1,13 +1,15 @@
 "use client";
-import { BookOpen, Code2, Network } from 'lucide-react';
+import { BookOpen, Code2, Network, ShieldCheck } from 'lucide-react';
 import CourseCard from '@/components/ui/CourseCard';
 import { useEffect, useState } from 'react';
 import { courseData } from '@/data/chapters';
 import { basotCourseData } from '@/data/basotChapters';
+import { cryptoCourseData } from '@/data/cryptoChapters'; // Pastikan file ini dibuat berdasarkan data bab 2 yang kamu kirim
 
 export default function Dashboard() {
   const [mlProgress, setMlProgress] = useState(0);
   const [basotProgress, setBasotProgress] = useState(0);
+  const [cryptoProgress, setCryptoProgress] = useState(0);
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
@@ -31,6 +33,17 @@ export default function Dashboard() {
     });
     if (basotTotal > 0) setBasotProgress(Math.round((basotCompleted / basotTotal) * 100));
 
+    // Hitung Progress Crypto
+    let cryptoCompleted = 0, cryptoTotal = 0;
+    if (typeof cryptoCourseData !== 'undefined') {
+      cryptoCourseData.forEach(chapter => {
+        cryptoTotal += chapter.slides.length;
+        const maxPage = parseInt(localStorage.getItem(`crypto_progress_${chapter.id}`) || '-1');
+        cryptoCompleted += (maxPage + 1);
+      });
+      if (cryptoTotal > 0) setCryptoProgress(Math.round((cryptoCompleted / cryptoTotal) * 100));
+    }
+
   }, []);
 
   if (!isMounted) return null;
@@ -44,25 +57,22 @@ export default function Dashboard() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
         <CourseCard 
-          href="/ml" 
-          icon={<Network size={24} />} 
+          href="/ml" icon={<Network size={24} />} 
           title="Machine Learning" 
-          description="Konsep dasar, eksplorasi data, dan algoritma clustering (K-Means & DBSCAN) untuk persiapan UTS." 
+          description="Konsep dasar, eksplorasi data, dan algoritma clustering (K-Means & DBSCAN)." 
           progress={mlProgress} 
         />
         <CourseCard 
-          href="/basot" 
-          icon={<BookOpen size={24} />} 
+          href="/basot" icon={<BookOpen size={24} />} 
           title="Bahasa & Automata" 
           description="Logika State Machine, Regex, Pumping Lemma, dan Grammar Parser." 
           progress={basotProgress} 
         />
         <CourseCard 
-          href="#" 
-          icon={<Code2 size={24} />} 
-          title="Pengembangan API" 
-          description="Arsitektur Microservices menggunakan GoFiber dan PostgreSQL." 
-          progress={0} 
+          href="/crypto" icon={<ShieldCheck size={24} />} 
+          title="Kriptografi & Keamanan" 
+          description="Sandi Klasik, DES, AES, dan Aritmetika Modular untuk UTS." 
+          progress={cryptoProgress} 
         />
       </div>
     </main>

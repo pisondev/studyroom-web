@@ -1,4 +1,4 @@
-import { BrainCircuit, Activity, Database, Network, BarChart, Combine, BookCheck } from "lucide-react";
+import { BrainCircuit, Activity, Database, Network, BarChart, Combine, BookCheck, ShieldCheck } from "lucide-react";
 import { ReactNode } from "react";
 
 export interface Slide {
@@ -8,7 +8,8 @@ export interface Slide {
   content: string;
   iconName: string;
   isCanvas?: boolean;
-  canvasType?: "datatypes" | "kmeans" | "hierarchical" | "dbscan";
+  // --- PERBAIKAN: Tambahkan tipe canvas kripto di sini ---
+  canvasType?: "datatypes" | "kmeans" | "hierarchical" | "dbscan" | "caesar" | "vigenere";
 }
 
 export interface Chapter {
@@ -17,19 +18,14 @@ export interface Chapter {
   slides: Slide[];
 }
 
+// Data Machine Learning (Tidak ada yang diubah, persis seperti milikmu)
 export const courseData: Chapter[] = [
   {
     id: "1",
     title: "Pengantar Machine Learning",
     slides: [
       { id: 1, type: "intro", title: "Evolusi Machine Learning", content: "Mesin tidak tiba-tiba menjadi pintar. Mari kita lihat sejarah bagaimana ilmuwan mengajari mesin berpikir, dari aturan kaku hingga eksplorasi mandiri.", iconName: "BrainCircuit" },
-      { 
-        id: 2, 
-        type: "concept", 
-        title: "Sejarah: Masa Frustrasi Ilmuwan", 
-        content: "Tahun 1950-an: Ilmuwan lelah memprogram aturan 'IF-THEN' secara manual untuk setiap kemungkinan. Lahirlah Supervised Learning (Perceptron) yang bisa memprediksi jika diberi data berlabel. \n\nTahun 1960-an: Labeling data ternyata sangat mahal. Ahli biologi butuh cara mengelompokkan ribuan spesies hewan secara otomatis. Ini memicu lahirnya Unsupervised Learning (Hierarchical Clustering). Insinyur telekomunikasi yang butuh kecepatan lalu menyempurnakannya menjadi K-Means. \n\nTahun 1990-an: Data geografis dan satelit meledak. Bentuk data tak lagi bulat rapi. Lahirlah DBSCAN yang mendeteksi kepadatan.", 
-        iconName: "Database" 
-      },
+      { id: 2, type: "concept", title: "Sejarah: Masa Frustrasi Ilmuwan", content: "Tahun 1950-an: Ilmuwan lelah memprogram aturan 'IF-THEN' secara manual untuk setiap kemungkinan. Lahirlah Supervised Learning (Perceptron) yang bisa memprediksi jika diberi data berlabel. \n\nTahun 1960-an: Labeling data ternyata sangat mahal. Ahli biologi butuh cara mengelompokkan ribuan spesies hewan secara otomatis. Ini memicu lahirnya Unsupervised Learning (Hierarchical Clustering). Insinyur telekomunikasi yang butuh kecepatan lalu menyempurnakannya menjadi K-Means. \n\nTahun 1990-an: Data geografis dan satelit meledak. Bentuk data tak lagi bulat rapi. Lahirlah DBSCAN yang mendeteksi kepadatan.", iconName: "Database" },
       { id: 3, type: "intro", title: "Tipe Pembelajaran Utama", content: "Supervised (Punya Kunci Jawaban), Unsupervised (Tanpa Label, Mesin mencari pola mandiri), dan Reinforcement (Mesin belajar dari lingkungan menggunakan sistem Reward & Punishment).", iconName: "Network" },
       { id: 4, type: "concept", title: "Rangkuman Bab 1", content: "Kamu telah memahami bahwa ML adalah mesin yang mencari pola dari data. Seluruh algoritma yang kita pelajari diciptakan dari rasa frustrasi ilmuwan di masa lalu untuk menyelesaikan masalah spesifik di zamannya.", iconName: "BookCheck" }
     ]
@@ -74,6 +70,8 @@ export const getIcon = (name: string): ReactNode => {
     case "BarChart": return <BarChart size={32} />;
     case "Combine": return <Combine size={32} />;
     case "BookCheck": return <BookCheck size={32} />;
+    // --- PERBAIKAN: Tambahkan icon baru yang dipakai di bab kripto ---
+    case "ShieldCheck": return <ShieldCheck size={32} />;
     default: return <BrainCircuit size={32} />;
   }
 };
