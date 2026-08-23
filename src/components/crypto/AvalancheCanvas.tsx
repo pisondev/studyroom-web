@@ -281,7 +281,7 @@ export default function AvalancheCanvas() {
 
                <div className="flex flex-col items-center md:items-end w-full md:w-1/3 gap-2">
                  <div className="flex justify-between w-full text-xs font-bold font-mono">
-                   <span className="text-slate-400">Similarity</span>
+                   <span className="text-slate-400">Difference</span>
                    <span className={percentage >= 40 && percentage <= 60 ? 'text-emerald-400' : 'text-rose-400'}>{percentage}% Berbeda</span>
                  </div>
                  {/* Progress Bar Score */}
